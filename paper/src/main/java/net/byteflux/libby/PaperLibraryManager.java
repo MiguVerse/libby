@@ -2,6 +2,7 @@ package net.byteflux.libby;
 
 import net.byteflux.libby.classloader.URLClassLoaderHelper;
 import net.byteflux.libby.logging.adapters.JDKLogAdapter;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
 import java.io.InputStream;
@@ -76,7 +77,7 @@ public class PaperLibraryManager extends LibraryManager {
         }
 
         classLoader = new URLClassLoaderHelper(libraryLoader, this);
-        globalClassLoader = new URLClassLoaderHelper((URLClassLoader) cl, this);
+        globalClassLoader = new URLClassLoaderHelper((URLClassLoader) Bukkit.class.getClassLoader(), this);
         this.plugin = plugin;
     }
 
@@ -101,7 +102,9 @@ public class PaperLibraryManager extends LibraryManager {
      * @see #downloadLibrary(Library)
      */
     public void loadGlobalLibrary(Library library) {
-        globalClassLoader.addToClasspath(preLoadLibrary(library));
+        for (Path path : preLoadLibrary(library)) {
+            globalClassLoader.addToClasspath(path);
+        }
     }
     
     @Override

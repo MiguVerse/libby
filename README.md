@@ -52,7 +52,7 @@ BungeeLibraryManager bungeeLibraryManager = new BungeeLibraryManager(plugin);
 // Also Nukkit, Sponge, Paper, and Velocity are supported
 ```
 
-Create a Library instance with the library builder
+Create a Library in[build.gradle.kts](../LibrePremium/Plugin/build.gradle.kts)stance with the library builder
 ```java
 Library lib = Library.builder()
     .groupId("your{}dependency{}groupId") // "{}" is replaced with ".", useful to avoid unwanted changes made by maven-shade-plugin

@@ -588,7 +588,7 @@ public abstract class LibraryManager {
      * @throws NullPointerException if the provided library is null.
      * @see #loadLibrary(Library)
      */
-    private void resolveTransitiveLibraries(Library library) {
+    private Collection<Library> resolveTransitiveLibraries(Library library) {
         requireNonNull(library, "library");
 
         synchronized (this) {
@@ -597,9 +597,7 @@ public abstract class LibraryManager {
             }
         }
 
-        for (Library transitiveLibrary : transitiveDependencyHelper.findTransitiveLibraries(library)) {
-            loadLibrary(transitiveLibrary);
-        }
+        return transitiveDependencyHelper.findTransitiveLibraries(library);
     }
 
     /**
@@ -613,12 +611,16 @@ public abstract class LibraryManager {
      * @see #downloadLibrary(Library)
      */
     public void loadLibrary(Library library) {
-        Path file = preLoadLibrary(library);
+        Collection<Path> file = preLoadLibrary(library);
 
         if (library.isIsolatedLoad()) {
-            addToIsolatedClasspath(library, file);
+            for (Path path : file) {
+                addToIsolatedClasspath(library, path);
+            }
         } else {
-            addToClasspath(file);
+            for (Path path : file) {
+                addToClasspath(path);
+            }
         }
     }
 
@@ -631,16 +633,30 @@ public abstract class LibraryManager {
      *
      * @param library the library to load
      * @see #downloadLibrary(Library)
+     * @return Resolved libraries including transitive dependencies
      */
-    public Path preLoadLibrary(Library library) {
+    public Collection<Path> preLoadLibrary(Library library) {
         Path file = downloadLibrary(requireNonNull(library, "library"));
         if (library.hasRelocations()) {
             file = relocate(file, library.getRelocatedPath(), library.getRelocations());
         }
+        
+        List<Path> files = new ArrayList<>();
+        files.add(file);
+        
         if (library.resolveTransitiveDependencies()) {
-            resolveTransitiveLibraries(library);
+            Collection<Library> transitiveList = resolveTransitiveLibraries(library);
+
+            for (Library transitiveLibrary : transitiveList) {
+                Path transitiveFile = downloadLibrary(transitiveLibrary);
+                if (transitiveLibrary.hasRelocations()) {
+                    transitiveFile = relocate(transitiveFile, transitiveLibrary.getRelocatedPath(), transitiveLibrary.getRelocations());
+                }
+                files.add(transitiveFile);
+            }
         }
-        return file;
+        
+        return files;
     }
 
     /**
