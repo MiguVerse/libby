@@ -111,11 +111,15 @@ public class TransitiveDependencyHelper {
 
         String[] repositories = Stream.of(libraryManager.getRepositories(), library.getRepositories()).flatMap(Collection::stream).toArray(String[]::new);
         try {
-            Collection<Object> artifacts = (Collection<Object>) resolveTransitiveDependenciesMethod.invoke(transitiveDependencyCollectorObject,
+            Object result = resolveTransitiveDependenciesMethod.invoke(transitiveDependencyCollectorObject,
                 library.getGroupId(),
                 library.getArtifactId(),
                 library.getVersion(),
                 repositories);
+            if (!(result instanceof Collection<?>)) {
+                throw new IllegalStateException("Unexpected transitive dependency result type: " + (result == null ? "null" : result.getClass().getName()));
+            }
+            List<Object> artifacts = new ArrayList<>((Collection<?>) result);
             for (Object artifact : artifacts) {
                 String groupId = (String) artifactGetGroupIdMethod.invoke(artifact);
                 String artifactId = (String) artifactGetArtifactIdMethod.invoke(artifact);

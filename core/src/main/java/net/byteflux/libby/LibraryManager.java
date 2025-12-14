@@ -26,8 +26,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.SocketTimeoutException;
-import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
 import java.nio.file.Files;
@@ -294,7 +294,7 @@ public abstract class LibraryManager {
     private String resolveSnapshot(String repository, Library library) {
         String url = requireNonNull(repository, "repository") + requireNonNull(library, "library").getPartialPath() + "maven-metadata.xml";
         try {
-            URLConnection connection = new URL(requireNonNull(url, "url")).openConnection();
+            URLConnection connection = URI.create(requireNonNull(url, "url")).toURL().openConnection();
 
             connection.setConnectTimeout(5000);
             connection.setReadTimeout(5000);
@@ -401,7 +401,7 @@ public abstract class LibraryManager {
      */
     private byte[] downloadLibrary(String url) {
         try {
-            URLConnection connection = new URL(requireNonNull(url, "url")).openConnection();
+            URLConnection connection = URI.create(requireNonNull(url, "url")).toURL().openConnection();
 
             connection.setConnectTimeout(5000);
             connection.setReadTimeout(5000);
