@@ -1,11 +1,11 @@
 steps:
   build:
-    image: "eclipse-temurin:17-alpine"
+    image: "eclipse-temurin:25-alpine"
     commands:
       - "./gradlew build"
 
   publish:
-    image: "eclipse-temurin:17-alpine"
+    image: "eclipse-temurin:25-alpine"
     commands:
       - "./gradlew publish -PkyngsRepoUsername=$${KYNGS_REPO_TOKEN} -PkyngsRepoPassword=$${KYNGS_REPO_SECRET}"
     when:
