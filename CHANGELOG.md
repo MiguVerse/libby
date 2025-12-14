@@ -1,3 +1,6 @@
+### Version 1.7.5
+* Important bug fix for ASM failures on installing
+
 ### Version 1.7.4
 * Updated ASM allowing support for Java 25
 
