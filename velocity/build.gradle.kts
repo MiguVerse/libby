@@ -8,7 +8,7 @@ plugins {
 
 dependencies {
     api(project(":libby-core"))
-    compileOnly("com.velocitypowered:velocity-api:3.1.1")
+    compileOnly("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
 }
 
 description = "libby-velocity"
