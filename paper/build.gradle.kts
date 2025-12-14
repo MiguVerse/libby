@@ -8,11 +8,7 @@ plugins {
 
 dependencies {
     api(project(":libby-core"))
-    compileOnly("io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
 }
 
 description = "libby-paper"
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-}

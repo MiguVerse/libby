@@ -45,20 +45,6 @@ java {
 }
 
 publishing {
-    repositories {
-        maven {
-            name = "kyngsRepo"
-            url = uri(
-                "https://repo.kyngs.xyz/" + (if (project.version.toString()
-                        .contains("SNAPSHOT")
-                ) "snapshots" else "releases") + "/"
-            )
-            credentials(PasswordCredentials::class)
-            authentication {
-                create<BasicAuthentication>("basic")
-            }
-        }
-    }
     publications {
         create<MavenPublication>("maven") {
             from(components["java"])
