@@ -1,4 +1,5 @@
 ## Version 1.7.6
+* Fixed checksums for ASM and ASM Commons in RelocationHelper
 🛠️ WIP 🛠️
 
 ### Version 1.7.5
