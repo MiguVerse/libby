@@ -53,7 +53,7 @@ public class RelocationHelper {
                 Library.builder()
                         .groupId("org.ow2.asm")
                         .artifactId("asm-commons")
-                        .version("9.9.1")
+                        .version("9.9")
                         .hexChecksum("9a579b54d292ad9be171d4313fd4739c635592c2b5ac3a459bbd1049cddec6a0")
                         .repository(Repositories.MAVEN_CENTRAL)
                         .build()
