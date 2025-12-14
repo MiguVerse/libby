@@ -1,3 +1,17 @@
+### Version 1.7.4
+* Updated ASM allowing support for Java 25
+
+### Version 1.7.3
+* Fixed workflows for use gradlew build and make sure it uses Java 17
+
+### Version 1.7.2
+* Update dependencies
+* Make sure no obsolete or deprecated things are used 
+
+### Version 1.7.1
+* Refactor LibraryManager and Library classes
+* Improve path handling
+
 ### Version 1.7.0
 * Allow to load libraries into the global classpath on Paper
 

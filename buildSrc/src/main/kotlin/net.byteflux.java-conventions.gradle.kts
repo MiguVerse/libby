@@ -35,7 +35,7 @@ repositories {
 }
 
 group = "xyz.miguvt.libby"
-version = "1.7.1"
+version = "1.7.4"
 
 java {
     toolchain {
