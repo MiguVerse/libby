@@ -4,7 +4,6 @@ import com.grack.nanojson.JsonArray;
 import com.grack.nanojson.JsonObject;
 import com.grack.nanojson.JsonParser;
 import com.grack.nanojson.JsonParserException;
-import com.grack.nanojson.JsonReader;
 import net.byteflux.libby.classloader.IsolatedClassLoader;
 import net.byteflux.libby.logging.LogLevel;
 import net.byteflux.libby.logging.Logger;
@@ -262,20 +261,22 @@ public abstract class LibraryManager {
         for (String repository : library.getRepositories()) {
             if (snapshot) {
                 String url = resolveSnapshot(repository, library);
-                if (url != null)
+                if (url != null) {
                     urls.add(repository + url);
+                }
             } else {
-                urls.add(repository + library.getPath());
+                urls.add(repository + library.getPartialPath() + library.getPath());
             }
         }
 
         for (String repository : getRepositories()) {
             if (snapshot) {
                 String url = resolveSnapshot(repository, library);
-                if (url != null)
+                if (url != null) {
                     urls.add(repository + url);
+                }
             } else {
-                urls.add(repository + library.getPath());
+                urls.add(repository + library.getPartialPath() + library.getPath());
             }
         }
 

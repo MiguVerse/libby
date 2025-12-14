@@ -34,11 +34,13 @@ repositories {
     }
 }
 
-group = "xyz.kyngs.libby"
+group = "xyz.miguvt.libby"
 version = "1.7.1"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(25))
+    }
     withSourcesJar()
 }
 
