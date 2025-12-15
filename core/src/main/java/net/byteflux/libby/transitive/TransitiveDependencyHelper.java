@@ -54,20 +54,20 @@ public class TransitiveDependencyHelper {
         requireNonNull(libraryManager, "libraryManager");
         this.libraryManager = libraryManager;
 
-        IsolatedClassLoader classLoader = new IsolatedClassLoader();
         String collectorClassName = "net.byteflux.libby.transitive.TransitiveDependencyCollector";
         String collectorClassPath = '/' + collectorClassName.replace('.', '/') + ".class";
 
-        try {
-            classLoader.defineClass(collectorClassName, getClass().getResourceAsStream(collectorClassPath));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        try (IsolatedClassLoader classLoader = new IsolatedClassLoader()) {
+            try {
+                classLoader.defineClass(collectorClassName, getClass().getResourceAsStream(collectorClassPath));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
-        for (Library library : TransitiveLibraryBundle.DEPENDENCY_BUNDLE)
-            classLoader.addPath(libraryManager.downloadLibrary(library));
+            for (Library library : TransitiveLibraryBundle.DEPENDENCY_BUNDLE) {
+                classLoader.addPath(libraryManager.downloadLibrary(library));
+            }
 
-        try {
             Class<?> transitiveDependencyCollectorClass = classLoader.loadClass(collectorClassName);
             Class<?> artifactClass = classLoader.loadClass("org.eclipse.aether.artifact.Artifact");
 
@@ -84,7 +84,7 @@ public class TransitiveDependencyHelper {
             artifactGetArtifactIdMethod = artifactClass.getMethod("getArtifactId");
             // org.eclipse.aether.artifact.Artifact#getVersion()
             artifactGetVersionMethod = artifactClass.getMethod("getVersion");
-        } catch (ReflectiveOperationException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

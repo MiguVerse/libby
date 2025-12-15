@@ -22,12 +22,6 @@ import static java.util.Objects.requireNonNull;
  * the classpath.
  */
 public class URLClassLoaderHelper {
-
-    /**
-     * The class loader being managed by this helper.
-     */
-    private final URLClassLoader classLoader;
-
     /**
      * A reflected method in {@link URLClassLoader}, when invoked adds a URL to the classpath.
      */
@@ -41,7 +35,7 @@ public class URLClassLoaderHelper {
      */
     public URLClassLoaderHelper(URLClassLoader classLoader, LibraryManager libraryManager) {
         requireNonNull(libraryManager, "libraryManager");
-        this.classLoader = requireNonNull(classLoader, "classLoader");
+        requireNonNull(classLoader, "classLoader");
 
         try {
             Method addURLMethod = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);

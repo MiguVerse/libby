@@ -46,42 +46,40 @@ public class RelocationHelper {
     public RelocationHelper(LibraryManager libraryManager) {
         requireNonNull(libraryManager, "libraryManager");
 
-        IsolatedClassLoader classLoader = new IsolatedClassLoader();
-
-        // ObjectWeb ASM Commons
-        classLoader.addPath(libraryManager.downloadLibrary(
+        try (IsolatedClassLoader classLoader = new IsolatedClassLoader()) {
+            // ObjectWeb ASM Commons
+            classLoader.addPath(libraryManager.downloadLibrary(
                 Library.builder()
-                        .groupId("org.ow2.asm")
-                        .artifactId("asm-commons")
-                        .version("9.9")
-                        .hexChecksum("db2f6f26150bbe7c126606b4a1151836bcc22a1e05a423b3585698bece995ff8")
-                        .repository(Repositories.MAVEN_CENTRAL)
-                        .build()
-        ));
+                    .groupId("org.ow2.asm")
+                    .artifactId("asm-commons")
+                    .version("9.9")
+                    .hexChecksum("db2f6f26150bbe7c126606b4a1151836bcc22a1e05a423b3585698bece995ff8")
+                    .repository(Repositories.MAVEN_CENTRAL)
+                    .build()
+            ));
 
-        // ObjectWeb ASM
-        classLoader.addPath(libraryManager.downloadLibrary(
+            // ObjectWeb ASM
+            classLoader.addPath(libraryManager.downloadLibrary(
                 Library.builder()
-                        .groupId("org.ow2.asm")
-                        .artifactId("asm")
-                        .version("9.9")
-                        .hexChecksum("03d99a74ad1ee5c71334ef67437f4ef4fe3488caa7c96d8645abc73c8e2017d4")
-                        .repository(Repositories.MAVEN_CENTRAL)
-                        .build()
-        ));
+                    .groupId("org.ow2.asm")
+                    .artifactId("asm")
+                    .version("9.9")
+                    .hexChecksum("03d99a74ad1ee5c71334ef67437f4ef4fe3488caa7c96d8645abc73c8e2017d4")
+                    .repository(Repositories.MAVEN_CENTRAL)
+                    .build()
+            ));
 
-        // Luck's Jar Relocator
-        classLoader.addPath(libraryManager.downloadLibrary(
+            // Luck's Jar Relocator
+            classLoader.addPath(libraryManager.downloadLibrary(
                 Library.builder()
-                        .groupId("me.lucko")
-                        .artifactId("jar-relocator")
-                        .version("1.7")
-                        .checksum("b30RhOF6kHiHl+O5suNLh/+eAr1iOFEFLXhwkHHDu4I=")
-                        .repository(Repositories.MAVEN_CENTRAL)
-                        .build()
-        ));
+                    .groupId("me.lucko")
+                    .artifactId("jar-relocator")
+                    .version("1.7")
+                    .checksum("b30RhOF6kHiHl+O5suNLh/+eAr1iOFEFLXhwkHHDu4I=")
+                    .repository(Repositories.MAVEN_CENTRAL)
+                    .build()
+            ));
 
-        try {
             Class<?> jarRelocatorClass = classLoader.loadClass("me.lucko.jarrelocator.JarRelocator");
             Class<?> relocationClass = classLoader.loadClass("me.lucko.jarrelocator.Relocation");
 
@@ -93,7 +91,7 @@ public class RelocationHelper {
 
             // me.lucko.jarrelocator.Relocation(String, String, Collection, Collection)
             relocationConstructor = relocationClass.getConstructor(String.class, String.class, Collection.class, Collection.class);
-        } catch (ReflectiveOperationException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
