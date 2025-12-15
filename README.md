@@ -1,7 +1,7 @@
-# Libby (kyngs)
+# Libby (MiguVerse)
 
-Fork of [AlessioDP/libby](https://github.com/AlessioDP/libby)
-## [Changes in this fork](https://github.com/AlessioDP/libby/blob/master/CHANGELOG.md)
+Fork of [kyngs/libby](https://github.com/kyngs/libby) which is a fork of [AlessioDP/libby](https://github.com/AlessioDP/libby)
+## [Changes in this fork](https://github.com/MiguVerse/libby/blob/master/CHANGELOG.md)
 
 # Libby
 
