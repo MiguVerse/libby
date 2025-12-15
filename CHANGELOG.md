@@ -1,4 +1,4 @@
-## Version 1.7.6
+### Version 1.7.6
 * Fixed checksums for ASM and ASM Commons in RelocationHelper
 * Removed unused imports and streamlined class loader usage in various files
 
